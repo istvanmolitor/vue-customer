@@ -1,0 +1,8 @@
+{
+  "name": "@molitor/vue-customer",
+  "version": "1.0.0",
+  "description": "Customer management Vue components",
+  "main": "index.ts",
+  "type": "module"
+}
+
