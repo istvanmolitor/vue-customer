@@ -9,6 +9,7 @@ import {
   Textarea,
   toastService,
 } from '@admin'
+import { AddressInput } from '@address'
 import Checkbox from '@admin/components/ui/Checkbox.vue'
 import Card from '@admin/components/ui/Card.vue'
 import CardContent from '@admin/components/ui/CardContent.vue'
@@ -19,7 +20,7 @@ import CardTitle from '@admin/components/ui/CardTitle.vue'
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { customerApi } from '../services/customerApi'
-import type { CustomerGroup } from '../types'
+import type { CustomerAddress, CustomerGroup } from '../types'
 
 interface CustomerFormData {
   name: string
@@ -31,6 +32,8 @@ interface CustomerFormData {
   language_id: number | null
   is_buyer: boolean
   is_seller: boolean
+  invoice_address: CustomerAddress
+  shipping_address: CustomerAddress
 }
 
 interface SelectOption {
@@ -48,6 +51,25 @@ const customerGroups = ref<CustomerGroup[]>([])
 const currencies = ref<SelectOption[]>([])
 const languages = ref<SelectOption[]>([])
 
+const createEmptyAddress = (): CustomerAddress => ({
+  name: '',
+  country_id: null,
+  zip_code: '',
+  city: '',
+  address: '',
+})
+
+const getAddressErrors = (prefix: 'invoice_address' | 'shipping_address'): Record<string, string[]> => {
+  const entries = Object.entries(errors.value)
+    .filter(([key]) => key.startsWith(`${prefix}.`))
+    .map(([key, value]) => [key.replace(`${prefix}.`, ''), value] as const)
+
+  return Object.fromEntries(entries)
+}
+
+const invoiceAddressErrors = computed(() => getAddressErrors('invoice_address'))
+const shippingAddressErrors = computed(() => getAddressErrors('shipping_address'))
+
 const form = reactive<CustomerFormData>({
   name: '',
   internal_name: '',
@@ -58,6 +80,8 @@ const form = reactive<CustomerFormData>({
   language_id: null,
   is_buyer: true,
   is_seller: false,
+  invoice_address: createEmptyAddress(),
+  shipping_address: createEmptyAddress(),
 })
 
 const isEditing = computed(() => Boolean(route.params.id))
@@ -87,6 +111,14 @@ const fetchFormData = async (): Promise<void> => {
       form.language_id = customer.language_id ?? null
       form.is_buyer = Boolean(customer.is_buyer)
       form.is_seller = Boolean(customer.is_seller)
+      form.invoice_address = {
+        ...createEmptyAddress(),
+        ...(customer.invoice_address ?? {}),
+      }
+      form.shipping_address = {
+        ...createEmptyAddress(),
+        ...(customer.shipping_address ?? {}),
+      }
 
       customerGroups.value = response.customer_groups ?? []
       currencies.value = mapNameDictionaryToOptions(response.currencies ?? {})
@@ -96,6 +128,8 @@ const fetchFormData = async (): Promise<void> => {
       customerGroups.value = response.customer_groups ?? []
       currencies.value = mapNameDictionaryToOptions(response.currencies ?? {})
       languages.value = mapNameDictionaryToOptions(response.languages ?? {})
+      form.invoice_address = createEmptyAddress()
+      form.shipping_address = createEmptyAddress()
     }
   } catch (error) {
     console.error('Hiba az ügyfél adatainak betöltésekor:', error)
@@ -125,6 +159,14 @@ const handleSubmit = async (): Promise<void> => {
       customer_group_id: parseNullableNumber(form.customer_group_id),
       currency_id: parseNullableNumber(form.currency_id),
       language_id: parseNullableNumber(form.language_id),
+      invoice_address: {
+        ...form.invoice_address,
+        country_id: parseNullableNumber(form.invoice_address.country_id),
+      },
+      shipping_address: {
+        ...form.shipping_address,
+        country_id: parseNullableNumber(form.shipping_address.country_id),
+      },
     }
 
     if (isEditing.value) {
@@ -248,6 +290,19 @@ onMounted(() => {
             </select>
             <InputError :message="errors.language_id" />
           </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          <AddressInput
+            v-model="form.invoice_address"
+            title="Szamlazasi cim"
+            :errors="invoiceAddressErrors"
+          />
+          <AddressInput
+            v-model="form.shipping_address"
+            title="Szallitasi cim"
+            :errors="shippingAddressErrors"
+          />
         </div>
 
         <div class="flex items-center gap-2">

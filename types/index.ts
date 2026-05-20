@@ -1,3 +1,11 @@
+export interface CustomerAddress {
+  name: string;
+  country_id: number | null;
+  zip_code: string;
+  city: string;
+  address: string;
+}
+
 export interface Customer {
   id: number;
   name: string;
@@ -14,6 +22,8 @@ export interface Customer {
   customer_group?: CustomerGroup;
   currency?: { id: number; name: string };
   language?: { id: number; name: string };
+  invoice_address?: CustomerAddress | null;
+  shipping_address?: CustomerAddress | null;
   created_at: string;
   updated_at: string;
 }

@@ -1,4 +1,5 @@
 import { createApiClient } from '@user'
+import type { CustomerAddress } from '../types'
 
 const api = createApiClient({ baseURL: '/api/admin/customer' })
 
@@ -19,6 +20,8 @@ interface StoreData {
   language_id: number | null;
   is_buyer: boolean;
   is_seller: boolean;
+  invoice_address: CustomerAddress;
+  shipping_address: CustomerAddress;
 }
 
 export const customerApi = {
