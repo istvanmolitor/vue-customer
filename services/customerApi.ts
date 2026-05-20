@@ -5,6 +5,7 @@ const api = createApiClient({ baseURL: '/api/admin/customer' })
 
 interface ListParams {
   page?: number;
+  per_page?: number;
   search?: string;
   sort?: string;
   direction?: string;
