@@ -1,8 +1,6 @@
-import axios from 'axios';
+import { createApiClient } from '@user'
 
-const api = axios.create({
-  baseURL: '/api/admin/customer',
-});
+const api = createApiClient({ baseURL: '/api/admin/customer' })
 
 interface ListParams {
   page?: number;
