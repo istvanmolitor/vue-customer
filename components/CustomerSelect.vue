@@ -154,4 +154,3 @@ onMounted(() => {
     <div v-if="isOpen && !isLoading" class="fixed inset-0 z-40" @click="isOpen = false" />
   </div>
 </template>
-
