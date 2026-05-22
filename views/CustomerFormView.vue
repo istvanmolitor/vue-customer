@@ -10,6 +10,7 @@ import {
   toastService,
 } from '@admin'
 import { AddressInput } from '@address'
+import { UserSelecton } from '@user'
 import Checkbox from '@admin/components/ui/Checkbox.vue'
 import Card from '@admin/components/ui/Card.vue'
 import CardContent from '@admin/components/ui/CardContent.vue'
@@ -28,6 +29,7 @@ interface CustomerFormData {
   tax_number: string
   description: string
   customer_group_id: number | null
+  user_id: number | null
   currency_id: number | null
   language_id: number | null
   is_buyer: boolean
@@ -76,6 +78,7 @@ const form = reactive<CustomerFormData>({
   tax_number: '',
   description: '',
   customer_group_id: null,
+  user_id: null,
   currency_id: null,
   language_id: null,
   is_buyer: true,
@@ -107,6 +110,7 @@ const fetchFormData = async (): Promise<void> => {
       form.tax_number = customer.tax_number ?? ''
       form.description = customer.description ?? ''
       form.customer_group_id = customer.customer_group_id ?? null
+      form.user_id = customer.user_id ?? null
       form.currency_id = customer.currency_id ?? null
       form.language_id = customer.language_id ?? null
       form.is_buyer = Boolean(customer.is_buyer)
@@ -128,6 +132,7 @@ const fetchFormData = async (): Promise<void> => {
       customerGroups.value = response.customer_groups ?? []
       currencies.value = mapNameDictionaryToOptions(response.currencies ?? {})
       languages.value = mapNameDictionaryToOptions(response.languages ?? {})
+      form.user_id = null
       form.invoice_address = createEmptyAddress()
       form.shipping_address = createEmptyAddress()
     }
@@ -157,6 +162,7 @@ const handleSubmit = async (): Promise<void> => {
     const payload: CustomerFormData = {
       ...form,
       customer_group_id: parseNullableNumber(form.customer_group_id),
+      user_id: parseNullableNumber(form.user_id),
       currency_id: parseNullableNumber(form.currency_id),
       language_id: parseNullableNumber(form.language_id),
       invoice_address: {
@@ -258,6 +264,12 @@ onMounted(() => {
             </option>
           </select>
           <InputError :message="errors.customer_group_id" />
+        </div>
+
+        <div class="space-y-2">
+          <Label for="user_id">Felhasznalo</Label>
+          <UserSelecton id="user_id" v-model="form.user_id" />
+          <InputError :message="errors.user_id" />
         </div>
 
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">

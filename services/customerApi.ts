@@ -17,6 +17,7 @@ interface StoreData {
   tax_number: string;
   description: string;
   customer_group_id: number | null;
+  user_id: number | null;
   currency_id: number | null;
   language_id: number | null;
   is_buyer: boolean;

@@ -15,11 +15,13 @@ export interface Customer {
   description: string;
   tax_number: string;
   customer_group_id: number | null;
+  user_id: number | null;
   currency_id: number | null;
   language_id: number | null;
   invoice_address_id: number | null;
   shipping_address_id: number | null;
   customer_group?: CustomerGroup;
+  user?: { id: number; name: string; email: string };
   currency?: { id: number; name: string };
   language?: { id: number; name: string };
   invoice_address?: CustomerAddress | null;
