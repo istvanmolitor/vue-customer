@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import {
-  AdminLayout,
-  BackButton,
-  FormButtons,
-  Input,
-  InputError,
-  Label,
-  Textarea,
-  toastService,
-} from '@admin'
+import { AdminLayout, BackButton, FormButtons, Input, InputError, Label, Textarea, toastService, LoadingSpinner } from '@admin'
 import { AddressInput } from '@address'
 import { UserSelecton } from '@user'
 import Checkbox from '@admin/components/ui/Checkbox.vue'
@@ -214,9 +205,7 @@ onMounted(() => {
       <BackButton to="/admin/customers" />
     </div>
 
-    <div v-if="isLoading" class="flex justify-center py-8">
-      Betöltés...
-    </div>
+    <div v-if="isLoading" class="flex justify-center py-8"><LoadingSpinner label="Betöltés..." /></div>
 
     <Card v-else>
       <CardHeader>
