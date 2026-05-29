@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { toastService } from '@admin'
+import Icon from '@admin/components/ui/Icon.vue'
 import { customerApi } from '../services/customerApi'
 import type { Customer } from '../types'
 
@@ -100,12 +101,10 @@ onMounted(() => {
       class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
       @click="isOpen = !isOpen"
     >
-      <span :class="modelValue ? 'text-foreground' : 'text-muted-foreground'">
-        {{ modelValue ? selectedLabel : placeholder }}
-      </span>
-      <svg class="ml-2 h-4 w-4 shrink-0 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
+       <span :class="modelValue ? 'text-foreground' : 'text-muted-foreground'">
+         {{ modelValue ? selectedLabel : placeholder }}
+       </span>
+       <Icon name="chevron-down" class="ml-2 h-4 w-4 shrink-0 opacity-50" />
     </button>
 
     <div
@@ -134,19 +133,11 @@ onMounted(() => {
           @click="selectCustomer(customer)"
           @keydown.enter="selectCustomer(customer)"
         >
-          <span class="truncate text-left">
-            {{ customer.name }}
-            <span v-if="customer.internal_name" class="text-muted-foreground">({{ customer.internal_name }})</span>
-          </span>
-          <svg
-            v-if="modelValue === customer.id"
-            class="h-4 w-4 shrink-0"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
+           <span class="truncate text-left">
+             {{ customer.name }}
+             <span v-if="customer.internal_name" class="text-muted-foreground">({{ customer.internal_name }})</span>
+           </span>
+           <Icon v-if="modelValue === customer.id" name="check" class="h-4 w-4 shrink-0" />
         </button>
       </div>
     </div>
