@@ -22,18 +22,21 @@ export class CustomerMenuBuilder extends MenuBuilder {
       title: 'Ügyfelek',
       icon: Users,
       order: 35,
+      permission: 'customer',
       children: [
         {
           id: 'customer-list',
           title: 'Ügyfelek',
           path: '/admin/customers',
           order: 1,
+          permission: 'customer',
         },
         {
           id: 'customer-group-list',
           title: 'Ügyfélcsoportok',
           path: '/admin/customer-groups',
           order: 2,
+          permission: 'customer',
         },
       ],
     }
