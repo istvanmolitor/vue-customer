@@ -20,7 +20,6 @@ const pagination = ref<PaginationMeta>({
 })
 
 const columns: Column<Customer>[] = [
-  { key: 'id', label: 'ID', sortable: true, width: '80px' },
   { key: 'name', label: 'Név', sortable: true },
   { key: 'internal_name', label: 'Belső név', sortable: true },
   { key: 'tax_number', label: 'Adószám', sortable: true },
