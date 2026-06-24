@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AdminLayout, BackButton, FormButtons, Input, InputError, Label, Textarea, toastService, LoadingSpinner } from '@admin'
+import { AdminLayout, BackButton, FormButtons, InputError, Label, Textarea, toastService, LoadingSpinner } from '@admin'
+import InputField from '@admin/components/ui/InputField.vue'
 import Card from '@admin/components/ui/Card.vue'
 import CardContent from '@admin/components/ui/CardContent.vue'
 import CardDescription from '@admin/components/ui/CardDescription.vue'
@@ -104,11 +105,7 @@ onMounted(() => {
       </CardHeader>
 
       <CardContent class="space-y-4">
-        <div class="space-y-2">
-          <Label for="name">Név</Label>
-          <Input id="name" v-model="form.name" placeholder="Nagykereskedő partnerek" />
-          <InputError :message="errors.name" />
-        </div>
+        <InputField id="name" label="Név" v-model="form.name" placeholder="Nagykereskedő partnerek" :errors="errors.name" />
 
         <div class="space-y-2">
           <Label for="description">Leírás</Label>

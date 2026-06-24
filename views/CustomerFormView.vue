@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AdminLayout, BackButton, FormButtons, Input, InputError, Label, Textarea, toastService, LoadingSpinner } from '@admin'
+import { AdminLayout, BackButton, FormButtons, InputError, Label, Textarea, toastService, LoadingSpinner } from '@admin'
+import InputField from '@admin/components/ui/InputField.vue'
 import { AddressInput } from '@address'
 import { UserSelecton } from '@user'
 import Checkbox from '@admin/components/ui/Checkbox.vue'
@@ -216,23 +217,11 @@ onMounted(() => {
       </CardHeader>
 
       <CardContent class="space-y-4">
-        <div class="space-y-2">
-          <Label for="name">Név</Label>
-          <Input id="name" v-model="form.name" placeholder="Minta Kft." />
-          <InputError :message="errors.name" />
-        </div>
+        <InputField id="name" label="Név" v-model="form.name" placeholder="Minta Kft." :errors="errors.name" />
 
-        <div class="space-y-2">
-          <Label for="internal_name">Belső név</Label>
-          <Input id="internal_name" v-model="form.internal_name" placeholder="minta_kft" />
-          <InputError :message="errors.internal_name" />
-        </div>
+        <InputField id="internal_name" label="Belső név" v-model="form.internal_name" placeholder="minta_kft" :errors="errors.internal_name" />
 
-        <div class="space-y-2">
-          <Label for="tax_number">Adószám</Label>
-          <Input id="tax_number" v-model="form.tax_number" placeholder="12345678-1-42" />
-          <InputError :message="errors.tax_number" />
-        </div>
+        <InputField id="tax_number" label="Adószám" v-model="form.tax_number" placeholder="12345678-1-42" :errors="errors.tax_number" />
 
         <div class="space-y-2">
           <Label for="description">Leírás</Label>
