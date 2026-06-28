@@ -19,10 +19,7 @@ const pagination = ref<PaginationMeta>({
   total: 0,
 })
 
-const columns: Column<CustomerGroup>[] = [
-  { key: 'name', label: 'Név', sortable: true },
-  { key: 'description', label: 'Leírás', sortable: true },
-]
+const columns = ref<Column[]>([])
 
 const fetchGroups = async (params: {
   search?: string
@@ -35,6 +32,7 @@ const fetchGroups = async (params: {
     const response = await customerGroupApi.list(params)
     groups.value = response.data ?? []
     pagination.value = response.meta
+    columns.value = (response.columns ?? []) as Column[]
   } catch (error) {
     console.error('Hiba az ügyfélcsoportok betöltésekor:', error)
     toastService.error('Hiba történt az ügyfélcsoportok betöltése során.')
