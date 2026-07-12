@@ -3,7 +3,7 @@ import { AdminLayout, BackButton, FormButtons, InputError, Label, Textarea, toas
 import InputField from '@admin/components/ui/InputField.vue'
 import { AddressInput } from '@address'
 import { UserSelecton } from '@user'
-import Checkbox from '@admin/components/ui/Checkbox.vue'
+import CheckboxField from '@admin/components/ui/CheckboxField.vue'
 import Card from '@admin/components/ui/Card.vue'
 import CardContent from '@admin/components/ui/CardContent.vue'
 import CardDescription from '@admin/components/ui/CardDescription.vue'
@@ -295,15 +295,9 @@ onMounted(() => {
           />
         </div>
 
-        <div class="flex items-center gap-2">
-          <Checkbox id="is_buyer" v-model="form.is_buyer" />
-          <Label for="is_buyer">Vevő</Label>
-        </div>
+        <CheckboxField id="is_buyer" label="Vevő" v-model="form.is_buyer" />
 
-        <div class="flex items-center gap-2">
-          <Checkbox id="is_seller" v-model="form.is_seller" />
-          <Label for="is_seller">Eladó</Label>
-        </div>
+        <CheckboxField id="is_seller" label="Eladó" v-model="form.is_seller" />
       </CardContent>
 
       <CardFooter>
